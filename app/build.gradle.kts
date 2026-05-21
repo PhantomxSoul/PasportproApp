@@ -21,24 +21,24 @@ android {
     }
 
     signingConfigs {
-        create("debugConfig") {
-            storeFile = file("${rootDir}/debug.keystore")
-            storePassword = "android"
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-        }
+    getByName("debug") {
+        storeFile = file("${System.getProperty("user.home")}/.android/debug.keystore")
+        storePassword = "android"
+        keyAlias = "androiddebugkey"
+        keyPassword = "android"
+    }
+}
+
+buildTypes {
+    release {
+        isMinifyEnabled = false
+        signingConfig = signingConfigs.getByName("debug")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            signingConfig = signingConfigs.getByName("debugConfig")
-        }
-
-        debug {
-            signingConfig = signingConfigs.getByName("debugConfig")
-        }
+    debug {
+        signingConfig = signingConfigs.getByName("debug")
     }
+}
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
